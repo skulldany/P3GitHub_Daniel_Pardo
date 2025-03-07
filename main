@@ -1,0 +1,42 @@
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.BufferedReader;
+
+public class separartexto {
+    public static void main(String[] args) {
+        String archivoOriginal = "archivo_original.txt";
+        String archivoPares = "lineas_pares.txt";
+        String archivoImpares = "lineas_impares.txt";
+
+        try (
+            BufferedReader lector = new BufferedReader(new FileReader(archivoOriginal));
+            BufferedWriter escritorPares = new BufferedWriter(new FileWriter(archivoPares));
+            BufferedWriter escritorImpares = new BufferedWriter(new FileWriter(archivoImpares))
+        ) {
+            String linea;
+            int numeroLinea = 1;
+
+            while ((linea = lector.readLine()) != null){
+                if (numeroLinea % 2 == 0) {
+                    escritorPares.write(linea);
+                    escritorPares.newLine();
+                } else {
+                    escritorImpares.write(linea);
+                    escritorImpares.newLine();
+                }
+                numeroLinea++;
+            }
+
+            System.out.println("Archivo dividido exitosamente en líneas pares e impares.");
+        } catch (FileNotFoundException e) {
+            System.out.println("No se encontró el archivo: " + archivoOriginal);
+        } catch (IOException e) {
+            System.out.println("Se produjo un error al procesar los archivos: " + e.getMessage());
+        }
+    }
+}
